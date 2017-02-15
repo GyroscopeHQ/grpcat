@@ -12,7 +12,7 @@ Given a protobuf definition, `hello.proto`, compile it to python:
 Given a service called `Hello` listening on `localhost` port `4444`, call the `GetHello`
 RPC with a `GetHelloRequest` message parsed from text:
 
-`$ cat get_hello_request.txt | grpcat.txt localhost 4444 /hello.Hello/GetHello GetHelloRequest`
+`$ cat get_hello_request.txt | grpcat.py localhost 4444 /hello.Hello/GetHello GetHelloRequest`
 
 The response from that request will be printed to `stdout`.
 
