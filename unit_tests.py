@@ -160,6 +160,7 @@ class TestRPCResponse(unittest.TestCase):
 
         try:
             grpcat.run(args)
+            self.assertTrue(False)
         except Exception as e:
             self.assertEqual(fail_message, str(e))
 
