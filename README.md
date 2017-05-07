@@ -43,7 +43,15 @@ Create a `get_hello_request.txt` file with the appropriate message field specifi
 
 Run the following way:
 
-`$ cat get_hello_request.txt | python3 unit_tests.py`
+`$ python3 unit_tests.py`
+
+To test with the mock server first run:
+
+`$ python3 mock_server.py`
+
+and in a separate terminal window
+
+`$ python3 unit_tests.py`
 
 The program will output the results of the unit tests. 
 
