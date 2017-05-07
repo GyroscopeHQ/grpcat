@@ -33,19 +33,17 @@ Specifically whether the program
 - fails to make a connection to the RPC server
 - succeeds in connecting to the RPC server
 
+**Assumptions**
+- compiled modules from hello.proto
+- a get_hello_request.txt with a valid message, with the appropriate field specified in the `hello.proto`, for example `name:"Joe"`.`
+
 **Usage**
 
-Given a protobuf definition, `hello.proto`, compile it to python:
-
-`$ python3 -m  grpc_tools.protoc  -I. --python_out=. --grpc_python_out=. hello.proto`
-
-Create a `get_hello_request.txt` file with the appropriate message field specified in `hello.proto`, for example `name:"Joe"`. 
-
-Run the following way:
+With no mock server run the following way:
 
 `$ python3 unit_tests.py`
 
-To test with the mock server first run:
+To test with the mock server first start the server by running:
 
 `$ python3 mock_server.py`
 
