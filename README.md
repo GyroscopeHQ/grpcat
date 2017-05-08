@@ -35,19 +35,11 @@ Specifically whether the program
 
 **Assumptions**
 - compiled modules from hello.proto
-- a get_hello_request.txt with a valid message, with the appropriate field specified in the `hello.proto`, for example `name:"Joe"`.`
+- a get_hello_request.txt with a valid message, with the appropriate field specified in the `hello.proto`, for example `name:"Joe"`.
 
 **Usage**
 
-With no mock server run the following way:
-
-`$ python3 unit_tests.py`
-
-To test with the mock server first start the server by running:
-
-`$ python3 mock_server.py`
-
-and in a separate terminal window
+Run unit the unit tests the following way:
 
 `$ python3 unit_tests.py`
 

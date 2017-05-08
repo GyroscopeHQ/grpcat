@@ -16,15 +16,13 @@ class TestArgumentParsing(unittest.TestCase):
             Check whether the grpcat parses valid argument input as expected.
         """
 
-        # raw_input.return_value = input_data = "nae:\"Daniel\""
-
         test_args = [
-        ['localhost', '4444', '/hello.Hello/GetHello',
-         'GetHelloRequest'],
-        ['localhost2', '5555', '/test2/Get-Test2',
-         'GetRequest2'],
-        ['host3', '333', '/hello.3/getTest3',
-         'GetT3_Request'],
+            ['localhost', '4444', '/hello.Hello/GetHello',
+             'GetHelloRequest'],
+            ['localhost2', '5555', '/test2/Get-Test2',
+             'GetRequest2'],
+            ['host3', '333', '/hello.3/getTest3',
+             'GetT3_Request'],
         ]
 
         expected_parse = [
@@ -54,9 +52,9 @@ class TestArgumentParsing(unittest.TestCase):
         #  too many or few args
         test_args = [
             ['Too Few', '/hello.Hello/GetHello',
-                'GetHelloRequest'],
+             'GetHelloRequest'],
             ['Too Many', '5555', '/test2/Get-Test2',
-                'GetRequest2', 'extra']
+             'GetRequest2', 'extra']
         ]
 
         expected_errors = [
@@ -107,13 +105,13 @@ class TestArgumentParsing(unittest.TestCase):
 
         test_args = [
             ['RPC Format Error', '/hello.HelloGetHello',
-                'GetHelloRequest'],
+             'GetHelloRequest'],
             ['localhost', '4444', '/helloHello/GetHello',
-                'GetHelloRequest'],
+             'GetHelloRequest'],
             ['localhost', '4444', '/hello-Hello/GetHello',
-                'GetHelloRequest'],
+             'GetHelloRequest'],
             ['localhost', '4444', '\hello.Hello\GetHello',
-                'GetHelloRequest']
+             'GetHelloRequest']
         ]
 
         #  hide program errors and instructions
@@ -134,27 +132,42 @@ class TestArgumentParsing(unittest.TestCase):
         sys.stdout = old_stdout
         sys.stderr = old_stderr
 
-#  mock the file input for the grpcat module
+
+class MockRPCState(object):
+    """
+        A mock RPC State object to mock the response from a successful
+        server connection. 
+    """
+
+    def SerializeToString(self):
+        return ""
+
+
+# mock the file input for the grpcat module
 @patch('fileinput.input')
 class TestRPCResponse(unittest.TestCase):
     """
         Tests to check server response.
     """
 
-    def test_failed_connection(self, fileinp):
+    @patch('grpc._channel._end_unary_response_blocking')
+    def test_failed_connection(self, response, fileinp):
         """
-            Test whether the connection to the RPC server fails.
+            Test whether the connection to the RPC server fails, by mocking 
+            the connection to fail. 
         """
+
+        fail_message = ("<_Rendezvous of RPC that terminated with (StatusCode."
+                        "UNAVAILABLE, Connect Failed)>")
+
+        response.side_effect = Exception(fail_message)
 
         text = open("get_hello_request.txt", "r")
         fileinp.return_value = text.read()
         text.close()
 
         sys.argv[1:] = ['localhost', '4444', '/hello.Hello/GetHello',
-                            'GetHelloRequest']
-
-        fail_message = ("<_Rendezvous of RPC that terminated with (StatusCode."
-                            "UNAVAILABLE, Connect Failed)>")
+                        'GetHelloRequest']
 
         args = grpcat.parse_args()
 
@@ -164,17 +177,21 @@ class TestRPCResponse(unittest.TestCase):
         except Exception as e:
             self.assertEqual(fail_message, str(e))
 
-    def test_successful_connection(self, fileinp):
+    @patch('grpc._channel._end_unary_response_blocking')
+    def test_successful_connection(self, response, fileinp):
         """
-            Test whether the connection to the RPC server was successful.
+            Test whether the connection to the RPC server was successful. By
+            mocking a successful response. 
         """
+
+        response.return_value = MockRPCState()
 
         text = open("get_hello_request.txt", "r")
         fileinp.return_value = text.read()
         text.close()
 
         sys.argv[1:] = ['localhost', '4444', '/hello.Hello/GetHello',
-        'GetHelloRequest']
+                        'GetHelloRequest']
 
         args = grpcat.parse_args()
 
@@ -187,9 +204,9 @@ class TestRPCResponse(unittest.TestCase):
             self.assertTrue(False)
 
 
-
 def main():
     unittest.main()
+
 
 if __name__ == '__main__':
     main()
