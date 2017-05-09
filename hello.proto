@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package grpcat;
+
+service Hello{
+
+    rpc GetHello (GetHelloRequest) returns (HelloReply) {}
+}
+
+message GetHelloRequest{
+    string name = 1;
+}
+
+message HelloReply{
+    string message = 1;
+}
