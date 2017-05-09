@@ -6,6 +6,6 @@ machine:
 
   # Version of python to use
   python:
-    version: 3.6.0
+    version: 3.4.3
 
 
