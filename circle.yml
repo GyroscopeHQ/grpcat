@@ -9,3 +9,11 @@ machine:
     version: 3.4.3
 
 
+dependencies:
+  pre:
+    - pip3 install nose
+
+test:
+
+  override:
+    nosetests test/unit_tests.py
