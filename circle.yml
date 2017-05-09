@@ -5,11 +5,3 @@ machine:
   python:
     version: 3.4.3
 
-
-dependencies:
-  pre:
-    - pip install nose
-
-test:
-  override:
-    nosetests test/unit_tests.py
