@@ -46,12 +46,9 @@ Run unit the unit tests the following way:
 The program will output the results of the unit tests. 
 
 
-TODO
-----
-
-Tests and examples.
-
 Copyright
 ---------
 
 `grpcat` is distributed under the MIT License and is copyright 2017 [Gyroscope Software](https://www.gyroscope.cc).
+
+grpcat includes contributions by Daniel Osváth Londoño.
