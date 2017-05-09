@@ -11,6 +11,5 @@ dependencies:
     - pip install nose
 
 test:
-
   override:
     nosetests test/unit_tests.py
